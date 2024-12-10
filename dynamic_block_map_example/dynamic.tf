@@ -2,6 +2,7 @@ data "azurerm_resource_group" "abc-azr-lab" {
   name = "abc-azr-lab"
 }
 
+# Nothing change
 resource "azurerm_network_security_group" "dynamic_nsg_fail" {
   name                = var.nsg_name_fail
   location            = data.azurerm_resource_group.abc-azr-lab.location
