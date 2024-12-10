@@ -23,7 +23,7 @@ jobs:
         run: |
           pip install -U checkov
           FILE_PARAMS=""
-          for FILE in steps.changed-files-specific.outputs.all_changed_files; do
+          for FILE in ${{ steps.changed-files-specific.outputs.all_changed_files }}; do
             FILE_PARAMS="$FILE_PARAMS -f $FILE"
           done
           # Run Checkov with files
