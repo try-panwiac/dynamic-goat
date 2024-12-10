@@ -1,0 +1,30 @@
+name: PR Test
+
+on: pull_request
+
+permissions:
+  contents: read
+
+jobs:
+  prisma:
+    runs-on: ubuntu-latest
+    env:
+      PYTHON_VERSION: "3.12"
+    steps:
+      - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11  # v3
+      - uses: actions/setup-python@39cd14951b08e74b54015e9e001cdefcf80e669f  # v4
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+      - name: Get changed files
+        id: changed-files-specific
+        uses: tj-actions/changed-files@6b2903bdce6310cfbddd87c418f253cf29b2dec9 # v44
+      - name: Install & run checkov
+        if: steps.changed-files-specific.outputs.any_changed == 'true'
+        run: |
+          pip install -U checkov
+          FILE_PARAMS=""
+          for FILE in ${{ steps.changed-files-specific.outputs.all_changed_files }}; do
+            FILE_PARAMS="$FILE_PARAMS -f $FILE"
+          done
+          # Run Checkov with files
+          checkov $FILE_PARAMS
