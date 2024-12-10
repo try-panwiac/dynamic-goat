@@ -27,4 +27,4 @@ jobs:
             FILE_PARAMS="$FILE_PARAMS -f $FILE"
           done
           # Run Checkov with files
-          checkov $FILE_PARAMS --repo-id ${{ github.repository }} --bc-api-key $PRISMA_API_KEY --prisma-api-url $PRISMA_URL
+          checkov $FILE_PARAMS --repo-id ${{ github.repository }} --bc-api-key ${{ secrets.PRISMA_API_KEY }} --prisma-api-url ${{ secrets.PRISMA_URL }}
